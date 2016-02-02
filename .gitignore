@@ -129,3 +129,4 @@ node_modules
 
 ### Project ###
 /dist
+config.json

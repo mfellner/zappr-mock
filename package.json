@@ -34,12 +34,14 @@
     "eslint": "1.10.x",
     "html-webpack-plugin": "2.7.x",
     "isomorphic-fetch": "2.2.x",
+    "nconf": "0.8.x",
     "react": "0.14.x",
     "react-bootstrap": "0.28.x",
     "react-dom": "0.14.x",
     "react-redux": "4.2.x",
     "redux": "3.2.x",
-    "redux-thunk": "1.0.x",
+    "redux-actions": "0.9.x",
+    "redux-promise": "0.5.x",
     "webpack": "1.12.x",
     "webpack-dev-server": "1.14.x"
   }
