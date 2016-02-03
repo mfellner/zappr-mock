@@ -130,3 +130,5 @@ node_modules
 ### Project ###
 /dist
 config.json
+webtask/pushbullet_token
+webtask/webhook_secret
