@@ -1,12 +1,27 @@
 var request = require('request')
 
-function githook(context, done) {
+function githook(context, req, res) {
   var PUSHBULLET_TOKEN = context.secrets.PUSHBULLET_TOKEN
+  var githubEvent = req.headers['x-github-event'] || null
   var hook = context.body || null
   var pushbulletUrl = 'https://api.pushbullet.com/v2'
 
+  if (hook) {
+    hook.githubEvent = githubEvent
+  }
+
+  function done(error, data) {
+    if (error) {
+      res.writeHead(500, {'Content-Type': 'application/json '})
+      res.end(JSON.stringify(error))
+    } else {
+      res.writeHead(200, {'Content-Type': 'application/json '})
+      res.end(JSON.stringify(data))
+    }
+  }
+
   if (!PUSHBULLET_TOKEN) {
-    return callback(new Error('PUSHBULLET_TOKEN not set'))
+    return done(new Error('PUSHBULLET_TOKEN not set'))
   }
 
   /**

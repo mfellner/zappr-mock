@@ -17,7 +17,7 @@ export default class PushbulletClient {
       const data = JSON.parse(e.data)
       if (data.type === 'push') {
         this.onPush(JSON.parse(data.push))
-      } else if (data.type !== 'noop') {
+      } else if (data.type !== 'nop') {
         console.log('pushbullet %s %o', data.type, e)
       }
     }

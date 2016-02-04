@@ -39,6 +39,8 @@ class Root extends Component {
     const username = this.props.user.login || null
     const userurl = this.props.user.html_url || null
     const userimg = this.props.user.avatar_url || 'http://placehold.it/100x100'
+    const webhook = this.props.webhook
+    const webhookEvent = webhook ? webhook.githubEvent : null
 
     return (
       <div className="container">
@@ -62,8 +64,10 @@ class Root extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            <h4>received webhook:</h4>
-            <code>{JSON.stringify(this.props.webhook)}</code>
+            <h4>received webhook:&nbsp;
+              <small>{webhookEvent}</small>
+            </h4>
+            <code>{JSON.stringify(webhook)}</code>
           </Col>
         </Row>
       </div>
