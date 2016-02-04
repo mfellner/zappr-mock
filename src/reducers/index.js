@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux'
 
 import users from './users'
+import webhook from './webhook'
 
 const rootReducer = combineReducers({
-  users
+  users, webhook
 })
 
 export default rootReducer

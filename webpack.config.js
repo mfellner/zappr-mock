@@ -7,8 +7,10 @@ nconf.argv()
 .env()
 .file({file: path.join(__dirname, 'config.json')})
 .defaults({
-  GITHUB_URL: 'https://api.github.com',
-  GITHUB_TOKEN: null
+  GITHUB_URL: 'api.github.com',
+  GITHUB_TOKEN: null,
+  PUSHBULLET_URL: 'stream.pushbullet.com/websocket',
+  PUSHBULLET_TOKEN: null
 })
 
 module.exports = {
@@ -34,7 +36,9 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       GITHUB_URL: JSON.stringify(nconf.get('GITHUB_URL')),
-      GITHUB_TOKEN: JSON.stringify(nconf.get('GITHUB_TOKEN'))
+      GITHUB_TOKEN: JSON.stringify(nconf.get('GITHUB_TOKEN')),
+      PUSHBULLET_URL: JSON.stringify(nconf.get('PUSHBULLET_URL')),
+      PUSHBULLET_TOKEN: JSON.stringify(nconf.get('PUSHBULLET_TOKEN'))
     })
   ]
 }

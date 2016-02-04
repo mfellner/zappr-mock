@@ -1,30 +1,50 @@
 var request = require('request')
 
-function githook(context, callback) {
-  var PUSHBULLET_TOKEN = context.data.PUSHBULLET_TOKEN
-  var WEBHOOK_SECRET = context.data.WEBHOOK_SECRET
-  var hook = context.data || {}
+function githook(context, done) {
+  var PUSHBULLET_TOKEN = context.secrets.PUSHBULLET_TOKEN
+  var hook = context.body || null
+  var pushbulletUrl = 'https://api.pushbullet.com/v2'
 
-  // TODO: verify authenticity of the request
-  if (!WEBHOOK_SECRET || !PUSHBULLET_TOKEN) {
-    return callback(new Error(401))
+  if (!PUSHBULLET_TOKEN) {
+    return callback(new Error('PUSHBULLET_TOKEN not set'))
   }
 
-  // TODO: use Google Cloud Messaging instead
-  request({
-    json: true,
-    method: 'POST', url: 'https://api.pushbullet.com/v2/pushes',
-    headers: {
-      'Access-Token': PUSHBULLET_TOKEN
-    },
-    body: {
-      type: 'note',
-      title: 'zappr-githook',
-      body: JSON.stringify(hook)
-    }
-  }, function (error, res, body) {
-    callback(error, body)
-  })
+  /**
+   * https://docs.pushbullet.com/#create-push
+   */
+  function createPush(data, callback) {
+    request({
+      json: true,
+      method: 'POST', url: pushbulletUrl + '/pushes',
+      headers: {'Access-Token': PUSHBULLET_TOKEN},
+      body: {
+        type: 'note',
+        title: 'zappr-githook',
+        body: JSON.stringify(data)
+      }
+    }, function (error, res, body) {
+      callback(error, body)
+    })
+  }
+
+  /**
+   * https://docs.pushbullet.com/#ephemerals
+   */
+  function sendEphemeral(data, callback) {
+    request({
+      json: true,
+      method: 'POST', url: pushbulletUrl + '/ephemerals',
+      headers: {'Access-Token': PUSHBULLET_TOKEN},
+      body: {
+        type: 'push',
+        push: JSON.stringify(data)
+      }
+    }, function (error, res, body) {
+      callback(error, body)
+    })
+  }
+
+  sendEphemeral(hook, done)
 }
 
 module.exports = githook

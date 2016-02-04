@@ -9,7 +9,7 @@ const createStatus = createAction(CREATE_STATUS)
  * https://developer.github.com/v3/repos/statuses/#create-a-status
  */
 export function postStatus(owner, repo, sha, body = null) {
-  createStatus(fetch(`${GITHUB_URL}/repos/${owner}/${repo}/statuses/${sha}`, {
+  createStatus(fetch(`https://${GITHUB_URL}/repos/${owner}/${repo}/statuses/${sha}`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {

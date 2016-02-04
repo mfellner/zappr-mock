@@ -9,7 +9,7 @@ const fetchActiveUser = createAction(FETCH_ACTIVE_USER)
  * https://developer.github.com/v3/users/#get-the-authenticated-user
  */
 export function getActiveUser() {
-  return fetchActiveUser(fetch(`${GITHUB_URL}/user`, {
+  return fetchActiveUser(fetch(`https://${GITHUB_URL}/user`, {
     method: 'GET',
     headers: {
       Accept: 'application/vnd.github.v3+json',

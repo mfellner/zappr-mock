@@ -3,19 +3,32 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Button, Thumbnail } from 'react-bootstrap'
 
+import PushbulletClient from './PushbulletClient'
 import { getActiveUser } from '../actions/users'
+import { receiveWebhook } from '../actions/webhook'
 
 function mapStateToProps(state) {
   return {
-    user: state.users.user
+    user: state.users.user,
+    webhook: state.webhook
   }
 }
 
 class Root extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    getActiveUser: PropTypes.func.isRequired
+    getActiveUser: PropTypes.func.isRequired,
+    receiveWebhook: PropTypes.func.isRequired
   };
+
+  constructor(props) {
+    super(props)
+    this.pushbullet = new PushbulletClient(props.receiveWebhook)
+  }
+
+  componentDidMount() {
+    this.pushbullet.init()
+  }
 
   onLogin() {
     this.props.getActiveUser()
@@ -47,9 +60,15 @@ class Root extends Component {
             </Button>
           </Col>
         </Row>
+        <Row>
+          <Col sm={12}>
+            <h4>received webhook:</h4>
+            <code>{JSON.stringify(this.props.webhook)}</code>
+          </Col>
+        </Row>
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, {getActiveUser})(Root)
+export default connect(mapStateToProps, {getActiveUser, receiveWebhook})(Root)
