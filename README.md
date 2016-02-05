@@ -1,5 +1,7 @@
 # zappr-mock
 
+[![Join the chat at https://gitter.im/zalando/zappr-mock](https://badges.gitter.im/zalando/zappr-mock.svg)](https://gitter.im/zalando/zappr-mock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Prototyping with the Github API.
 
 ### Development
