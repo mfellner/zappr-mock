@@ -8,8 +8,8 @@ nconf.argv()
 .file({file: path.join(__dirname, 'config.json')})
 .defaults({
   GITHUB_URL: 'api.github.com',
-  GITHUB_TOKEN: null,
   PUSHBULLET_URL: 'stream.pushbullet.com/websocket',
+  WEBTASK_URL: 'https://webtask.it.auth0.com/api/run/wt-max_fellner-gmail_com-0/zappr-githook',
   PUSHBULLET_TOKEN: null
 })
 
@@ -36,9 +36,9 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       GITHUB_URL: JSON.stringify(nconf.get('GITHUB_URL')),
-      GITHUB_TOKEN: JSON.stringify(nconf.get('GITHUB_TOKEN')),
       PUSHBULLET_URL: JSON.stringify(nconf.get('PUSHBULLET_URL')),
-      PUSHBULLET_TOKEN: JSON.stringify(nconf.get('PUSHBULLET_TOKEN'))
+      PUSHBULLET_TOKEN: JSON.stringify(nconf.get('PUSHBULLET_TOKEN')),
+      WEBTASK_URL: JSON.stringify(nconf.get('WEBTASK_URL'))
     })
   ]
 }

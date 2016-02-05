@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux'
 
+import oauth from './oauth'
 import users from './users'
 import webhook from './webhook'
 
 const rootReducer = combineReducers({
-  users, webhook
+  oauth, users, webhook
 })
 
 export default rootReducer

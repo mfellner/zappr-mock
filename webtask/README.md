@@ -1,6 +1,7 @@
 # githook webtask
 
-Forward Githook events to browser clients via Pushbullet or GCM.
+* Handle Github OAuth login webapp flow
+* Forward Githook events to browser clients via Pushbullet or GCM.
 
 **Description**
 
@@ -20,5 +21,6 @@ wt create webtask/githook.js \
   --prod \
   --name zappr-githook \
   --secret PUSHBULLET_TOKEN=$(cat webtask/pushbullet_token | tr -d "\n") \
-  --output token-url
+  --secret CLIENT_ID=$(cat webtask/client_id | tr -d "\n") \
+  --secret CLIENT_SECRET=$(cat webtask/client_secret | tr -d "\n")
 ```

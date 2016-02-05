@@ -42,6 +42,7 @@
     "redux": "3.2.x",
     "redux-actions": "0.9.x",
     "redux-promise": "0.5.x",
+    "redux-thunk": "1.0.x",
     "webpack": "1.12.x",
     "webpack-dev-server": "1.14.x",
     "wt-cli": "1.2.x"
