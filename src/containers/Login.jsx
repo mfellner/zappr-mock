@@ -28,7 +28,7 @@ class Login extends Component {
     const state = 'foo'
     this.github = {
       scope, state,
-      url: `${WEBTASK_URL}?scope=${scope}&state=${state}`
+      url: `${WEBTASK_URL}&scope=${scope}&state=${state}`
     }
   }
 

@@ -14,7 +14,7 @@ function githook(hook, pushbulletToken, done) {
     request({
       json: true,
       method: 'POST', url: pushbulletUrl + '/pushes',
-      headers: {'Access-Token': PUSHBULLET_TOKEN},
+      headers: {'Access-Token': pushbulletToken},
       body: {
         type: 'note',
         title: 'zappr-githook',
@@ -32,7 +32,7 @@ function githook(hook, pushbulletToken, done) {
     request({
       json: true,
       method: 'POST', url: pushbulletUrl + '/ephemerals',
-      headers: {'Access-Token': PUSHBULLET_TOKEN},
+      headers: {'Access-Token': pushbulletToken},
       body: {
         type: 'push',
         push: JSON.stringify(data)
@@ -98,8 +98,8 @@ function done(res) {
 }
 
 function dispatch(context, req, res) {
-  var CLIENT_ID = context.secrets.CLIENT_ID || null
-  var CLIENT_SECRET = context.secrets.CLIENT_SECRET || null
+  var CLIENT_ID = context.secrets.GITHUB_CLIENT_ID || null
+  var CLIENT_SECRET = context.secrets.GITHUB_CLIENT_SECRET || null
   var githubEvent = req.headers['x-github-event'] || null
   var oauthCode = req.headers['x-zappr-oauth-code'] || null
   var oauthState = req.headers['x-zappr-oauth-state'] || context.query['state'] || null
