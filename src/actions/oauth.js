@@ -1,15 +1,16 @@
 import fetch from 'isomorphic-fetch'
 import { createAction } from 'redux-actions'
 
-export const FETCH_ACCESS_TOKEN = Symbol('fetch access token')
+export const GITHUB_REQUEST_LOGIN = Symbol('github request login')
+export const GITHUB_FETCH_TOKEN = Symbol('github fetch token')
 
-const fetchAccessToken = createAction(FETCH_ACCESS_TOKEN)
+export const requestGithubLogin = createAction(GITHUB_REQUEST_LOGIN)
 
 /**
  * https://developer.github.com/v3/oauth/#web-application-flow
  */
-export function oauthHandshake(code, state) {
-  return fetchAccessToken(fetch(WEBTASK_URL, {
+export const githubFetchToken = createAction(GITHUB_FETCH_TOKEN,
+  (code, state) => fetch(WEBTASK_URL, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -17,5 +18,5 @@ export function oauthHandshake(code, state) {
       'x-zappr-oauth-state': state
     }
   })
-  .then(response => response.json()))
-}
+  .then(response => response.json())
+)

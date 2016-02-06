@@ -11,7 +11,7 @@
     "clean": "rm -rf dist/",
     "build": "webpack -d",
     "dist": "npm run clean && webpack -p",
-    "server": "webpack-dev-server --inline --no-info --content-base dist/",
+    "server": "webpack-dev-server --inline --no-info --history-api-fallback --content-base dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "babel-preset-react": "6.3.x",
     "babel-preset-stage-1": "6.3.x",
     "eslint": "1.10.x",
+    "file-loader": "0.8.x",
     "html-webpack-plugin": "2.7.x",
     "isomorphic-fetch": "2.2.x",
     "nconf": "0.8.x",
@@ -39,10 +40,12 @@
     "react-bootstrap": "0.28.x",
     "react-dom": "0.14.x",
     "react-redux": "4.2.x",
+    "react-router": "2.0.0-rc6",
     "redux": "3.2.x",
     "redux-actions": "0.9.x",
     "redux-promise": "0.5.x",
     "redux-thunk": "1.0.x",
+    "url-loader": "0.5.x",
     "webpack": "1.12.x",
     "webpack-dev-server": "1.14.x",
     "wt-cli": "1.2.x"
