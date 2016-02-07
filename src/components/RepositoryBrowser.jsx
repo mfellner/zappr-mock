@@ -6,22 +6,25 @@ import RepositoryDetail from './RepositoryDetail.jsx'
 
 export default class RepositoryBrowser extends Component {
   static propTypes = {
+    selected: PropTypes.string,
     repositories: PropTypes.array.isRequired
   };
   static defaultProps = {
+    selected: null,
     repositories: []
   };
 
   render() {
-    const {repositories} = this.props
+    const {selected, repositories} = this.props
+    const repository = repositories.find(r => r.name === selected)
     return (
       <div>
         <Row>
           <Col sm={3}>
-            <RepositoryList repositories={repositories}/>
+            <RepositoryList selected={selected} repositories={repositories}/>
           </Col>
           <Col sm={9}>
-            <RepositoryDetail repository={{}}/>
+            <RepositoryDetail repository={repository}/>
           </Col>
         </Row>
       </div>

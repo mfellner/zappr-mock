@@ -1,11 +1,11 @@
 import { handleActions } from 'redux-actions'
 
-import { RECEIVE_WEBHOOK } from '../actions/webhook'
+import { FETCH_REPOSITORIES } from '../actions/repositories'
 
 /**
  * Need to use handleActions instead of handleAction:
  * https://github.com/acdlite/redux-actions/issues/23
  */
 export default handleActions({
-  [RECEIVE_WEBHOOK]: (state, action) => (action.payload)
-}, {})
+  [FETCH_REPOSITORIES]: (state, action) => action.payload
+}, [])

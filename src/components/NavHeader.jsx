@@ -1,16 +1,26 @@
 import React from 'react'
+import { Link } from 'react-router'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Image } from 'react-bootstrap'
 
 import icon from '../img/icon.png'
 
 export default class NavHeader extends React.Component {
   static propTypes = {
+    location: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired,
     logout: React.PropTypes.func.isRequired
   };
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
+
+  isActive(path) {
+    if (this.props.location.pathname === path) {
+      return 'active'
+    } else {
+      return null
+    }
+  }
 
   onLogout() {
     this.props.logout()
@@ -40,11 +50,11 @@ export default class NavHeader extends React.Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <span style={{padding: '0 15px'}}>
+            <Link to="/" style={{padding: '0 15px'}}>
               <Image alt="ZAPPR"
                      src={icon}
                      style={style.logo}/>
-            </span>
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -53,6 +63,9 @@ export default class NavHeader extends React.Component {
             ZAPPR
           </Navbar.Text>
           <Nav pullRight>
+            <li className={this.isActive('/settings')}>
+              <Link to="/settings">Settings</Link>
+            </li>
             <NavDropdown title={login || 'anonymous'} id="basic-nav-dropdown">
               <MenuItem href={html_url}>
                 Profile

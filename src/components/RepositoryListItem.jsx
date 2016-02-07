@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 
 export default class RepositoryListItem extends Component {
   static propTypes = {
+    active: PropTypes.bool.isRequired,
     repository: PropTypes.object.isRequired
   };
   static defaultProps = {
@@ -9,13 +11,12 @@ export default class RepositoryListItem extends Component {
   };
 
   render() {
+    const active = this.props.active ? ' active' : ''
     return (
-      <li className="list-group-item">
-        <strong>Repository list item</strong>
-        <div>
-          <code>{JSON.stringify(this.props.repository)}</code>
-        </div>
-      </li>
+      <Link className={`list-group-item${active}`}
+            to={`/repository/${this.props.repository.name}`}>
+        {this.props.repository.name}
+      </Link>
     )
   }
 }

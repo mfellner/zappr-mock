@@ -9,10 +9,11 @@ export default class RepositoryDetail extends Component {
   };
 
   render() {
+    const {repository} = this.props
     return (
       <div>
-        <h4>Repository detail</h4>
-        <code>{JSON.stringify(this.props.repository)}</code>
+        <h4>{repository.name}</h4>
+        <a href={repository.html_url}>{repository.html_url}</a>
       </div>
     )
   }

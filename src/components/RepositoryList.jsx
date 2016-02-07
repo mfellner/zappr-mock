@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { ListGroup } from 'react-bootstrap'
+import { Panel, ListGroup } from 'react-bootstrap'
 
 import RepositoryListItem from './RepositoryListItem.jsx'
 
 export default class RepositoryList extends Component {
   static propTypes = {
+    selected: PropTypes.string.isRequired,
     repositories: PropTypes.array.isRequired
   };
   static defaultProps = {
@@ -12,16 +13,16 @@ export default class RepositoryList extends Component {
   };
 
   render() {
-    const {repositories} = this.props
+    const {selected, repositories} = this.props
     return (
-      <div>
-        <h4>Repositories</h4>
-        <ListGroup componentClass="ul">
+      <Panel collapsible defaultExpanded header="Repositories">
+        <ListGroup componentClass="ul" fill style={{maxHeight: '204px', overflowY: 'scroll'}}>
           {repositories.map((repository, i) => (
-            (<RepositoryListItem key={i} repository={repository}/>)
+            (<RepositoryListItem key={i} repository={repository}
+                                 active={repository.name === selected}/>)
           ))}
         </ListGroup>
-      </div>
+      </Panel>
     )
   }
 }

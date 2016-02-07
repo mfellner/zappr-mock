@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-export default class Optional extends React.Component {
+export default class Optional extends Component {
   static propTypes = {
     if: React.PropTypes.bool.isRequired,
     children: React.PropTypes.node.isRequired

@@ -16,21 +16,17 @@ function mapStateToProps(state) {
 class Login extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
-    githubFetchToken: PropTypes.func.isRequired
+    githubFetchToken: PropTypes.func.isRequired,
+    loginUrl: PropTypes.string.isRequired
   };
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props)
-    const scope = 'user'
-    const state = 'foo'
-    this.github = {
-      scope, state,
-      url: `${WEBTASK_URL}&login=github&scope=${scope}&state=${state}`
-    }
-  }
+  static defaultProps = {
+    loginUrl: `${WEBTASK_URL}&login=github`
+    + `&scope=${GITHUB_SCOPES.join(',')}`
+    + `&state=${'github'}`
+  };
 
   redirect(isAuthenticated) {
     if (isAuthenticated) {
@@ -73,7 +69,7 @@ class Login extends Component {
           <img alt="zappr" style={style.logo} src={zapprLogo}
                className="img-responsive"/>
           <a className="btn btn-md btn-social btn-github center-block"
-             href={this.github.url} disabled={isAuthenticating}
+             href={this.props.loginUrl} disabled={isAuthenticating}
              onClick={this.props.githubRequestLogin}>
             <span>
             {(() => (
