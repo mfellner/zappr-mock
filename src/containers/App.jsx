@@ -3,9 +3,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Button, Thumbnail } from 'react-bootstrap'
 
+import Optional from '../components/Optional.jsx'
+import NavHeader from '../components/NavHeader.jsx'
+import RepositoryBrowser from '../components/RepositoryBrowser.jsx'
 import PushbulletClient from './PushbulletClient'
 import { getActiveUser } from '../actions/users'
 import { receiveWebhook } from '../actions/webhook'
+import { githubLogout } from '../actions/oauth'
 import { pushbulletRequestLogin, pushbulletFetchToken } from '../actions/oauth'
 
 function mapStateToProps(state) {
@@ -18,6 +22,7 @@ function mapStateToProps(state) {
 
 class App extends Component {
   static propTypes = {
+    route: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     pushbullet: PropTypes.object.isRequired,
     getActiveUser: PropTypes.func.isRequired,
@@ -54,53 +59,49 @@ class App extends Component {
   }
 
   render() {
-    const username = this.props.user.login || null
-    const userurl = this.props.user.html_url || null
-    const userimg = this.props.user.avatar_url || 'http://placehold.it/100x100'
+    const {user} = this.props
+    const {path} = this.props.route
     const webhook = this.props.webhook
     const webhookEvent = webhook ? webhook.githubEvent : null
     const {isAuthenticated, isAuthenticating} = this.props.pushbullet
 
     return (
-      <div className="container">
-        <Row style={{paddingTop: '10px'}}>
-          <Col sm={12}>
-            <h3>Hello world,&nbsp;
-              <small>this is zappr-mock</small>
-            </h3>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={2}>
-            <Thumbnail src={userimg} href={userurl} style={{width:'100px'}} rounded responsive/>
-            <span>{username}</span>
-          </Col>
-          <Col sm={10}>
-            <h4>received webhook:&nbsp;
-              <small>{webhookEvent}</small>
-            </h4>
-            <code>{JSON.stringify(webhook)}</code>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={2}>
-            <a className="btn btn-default center-block"
-               href={this.pushbullet.url} disabled={isAuthenticated || isAuthenticating}
-               onClick={this.props.pushbulletRequestLogin}>
-              {(() => (
-                isAuthenticating
-                  ? (<i className="fa fa-spinner fa-pulse"/>)
-                  : (<i className="fa fa-cloud"/>)
-              ))()}
-              &nbsp;Pushbullet login
-            </a>
-          </Col>
-        </Row>
+      <div>
+        <Optional if={path.search(/^\/login/) === -1}>
+          <NavHeader user={user} logout={this.props.githubLogout}/>
+        </Optional>
+        <div className="container">
+          <Row>
+            <Col sm={12}>
+              <h4>received webhook:&nbsp;
+                <small>{webhookEvent}</small>
+              </h4>
+              <code>{JSON.stringify(webhook)}</code>
+            </Col>
+          </Row>
+          <Row style={{paddingTop: '10px'}}>
+            <Col sm={2}>
+              <a className="btn btn-default center-block"
+                 href={this.pushbullet.url} disabled={isAuthenticated || isAuthenticating}
+                 onClick={this.props.pushbulletRequestLogin}>
+                {(() => (
+                  isAuthenticating
+                    ? (<i className="fa fa-spinner fa-pulse"/>)
+                    : (<i className="fa fa-cloud"/>)
+                ))()}
+                &nbsp;Pushbullet login
+              </a>
+            </Col>
+          </Row>
+          <Row>
+            <RepositoryBrowser repositories={[{},{},{}]}/>
+          </Row>
+        </div>
       </div>
     )
   }
 }
 
 export default connect(mapStateToProps, {
-  getActiveUser, receiveWebhook, pushbulletRequestLogin, pushbulletFetchToken
+  getActiveUser, receiveWebhook, githubLogout, pushbulletRequestLogin, pushbulletFetchToken
 })(App)

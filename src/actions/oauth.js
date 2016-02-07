@@ -5,6 +5,7 @@ export const GITHUB_REQUEST_LOGIN = Symbol('github request login')
 export const GITHUB_FETCH_TOKEN = Symbol('github fetch token')
 export const PUSHBULLET_REQUEST_LOGIN = Symbol('pushbullet request login')
 export const PUSHBULLET_FETCH_TOKEN = Symbol('pushbullet fetch token')
+export const GITHUB_LOGOUT = Symbol('github logout')
 
 export const githubRequestLogin = createAction(GITHUB_REQUEST_LOGIN)
 
@@ -40,3 +41,5 @@ export const pushbulletFetchToken = createAction(PUSHBULLET_FETCH_TOKEN,
   })
   .then(response => response.json())
 )
+
+export const githubLogout = createAction(GITHUB_LOGOUT)

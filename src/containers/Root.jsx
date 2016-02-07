@@ -14,14 +14,12 @@ export default class Root extends Component {
 
   render() {
     return (
-      <div className="container">
-        <Provider store={this.props.store}>
-          <Router history={browserHistory}>
-            <Route path="/" component={requireAuth(App)}/>
-            <Route path="/login" component={Login}/>
-          </Router>
-        </Provider>
-      </div>
+      <Provider store={this.props.store}>
+        <Router history={browserHistory}>
+          <Route path="/" component={requireAuth(App)}/>
+          <Route path="/login" component={Login}/>
+        </Router>
+      </Provider>
     )
   }
 }
