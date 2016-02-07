@@ -4,10 +4,11 @@ export default class PushbulletClient {
     this.ws = null
   }
 
-  init() {
-    if (this.ws) ws.close()
+  init(accessToken) {
+    if (this.ws) this.ws.close()
+    if (!accessToken) throw new Error('pushbullet access token not set')
 
-    this.ws = new WebSocket(`wss://${PUSHBULLET_URL}/${PUSHBULLET_TOKEN}`)
+    this.ws = new WebSocket(`wss://${PUSHBULLET_URL}/${accessToken}`)
 
     this.ws.onopen = e => {
       console.log('pushbullet open %o', e)

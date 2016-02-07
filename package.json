@@ -45,6 +45,7 @@
     "redux": "3.2.x",
     "redux-actions": "0.9.x",
     "redux-promise": "0.5.x",
+    "redux-storage": "2.1.x",
     "redux-thunk": "1.0.x",
     "url-loader": "0.5.x",
     "webpack": "1.12.x",

@@ -10,7 +10,7 @@ const fetchActiveUser = createAction(FETCH_ACTIVE_USER)
  */
 export function getActiveUser() {
   return (dispatch, getState) => {
-    const {accessToken} = getState().oauth
+    const {accessToken} = getState().oauth.github
     return dispatch(fetchActiveUser(fetch(`https://${GITHUB_URL}/user`, {
       method: 'GET',
       headers: {

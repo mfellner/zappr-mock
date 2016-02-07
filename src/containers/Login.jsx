@@ -3,19 +3,19 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import zapprLogo from '../img/zappr.png'
-import { requestGithubLogin, githubFetchToken } from '../actions/oauth'
+import { githubRequestLogin, githubFetchToken } from '../actions/oauth'
 
 function mapStateToProps(state) {
   return {
     user: state.users.user,
-    oauth: state.oauth,
+    auth: state.oauth.github,
     webhook: state.webhook
   }
 }
 
 class Login extends Component {
   static propTypes = {
-    oauth: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
     githubFetchToken: PropTypes.func.isRequired
   };
   static contextTypes = {
@@ -28,24 +28,29 @@ class Login extends Component {
     const state = 'foo'
     this.github = {
       scope, state,
-      url: `${WEBTASK_URL}&scope=${scope}&state=${state}`
+      url: `${WEBTASK_URL}&login=github&scope=${scope}&state=${state}`
+    }
+  }
+
+  redirect(isAuthenticated) {
+    if (isAuthenticated) {
+      this.context.router.replace('/')
     }
   }
 
   componentDidMount() {
-    console.log('Login did mount %o', this.props.oauth)
-    const {code, state} = this.props.oauth
+    console.log('Login did mount %o', this.props.auth)
+    const {code, state} = this.props.auth
     if (code && state) {
-      console.log('waiting for Github OAuth handshake...')
+      console.log('fetching Github access token...')
       this.props.githubFetchToken(code, state)
     }
+    this.redirect(this.props.auth.isAuthenticated)
   }
 
   componentWillReceiveProps(props) {
-    console.log('Login will receive props %o', props.oauth)
-    if (props.oauth.isAuthenticated) {
-      this.context.router.replace('/')
-    }
+    console.log('Login will receive props %o', props.auth)
+    this.redirect(props.auth.isAuthenticated)
   }
 
   render() {
@@ -60,7 +65,8 @@ class Login extends Component {
         paddingBottom: '30px'
       }
     }
-    const {isAuthenticating} = this.props.oauth
+    const {isAuthenticating} = this.props.auth
+    console.log('render Login %o', this.github)
     return (
       <div style={style.container}>
         <div>
@@ -68,7 +74,7 @@ class Login extends Component {
                className="img-responsive"/>
           <a className="btn btn-md btn-social btn-github center-block"
              href={this.github.url} disabled={isAuthenticating}
-             onClick={this.props.requestGithubLogin}>
+             onClick={this.props.githubRequestLogin}>
             <span>
             {(() => (
               isAuthenticating
@@ -84,4 +90,4 @@ class Login extends Component {
   }
 }
 
-export default connect(mapStateToProps, {requestGithubLogin, githubFetchToken})(Login)
+export default connect(mapStateToProps, {githubRequestLogin, githubFetchToken})(Login)

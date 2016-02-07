@@ -11,7 +11,8 @@ nconf.argv()
 .defaults({
   GITHUB_CLIENT_ID: null,
   GITHUB_CLIENT_SECRET: null,
-  PUSHBULLET_TOKEN: null
+  PUSHBULLET_CLIENT_ID: null,
+  PUSHBULLET_CLIENT_SECRET: null
 })
 
 webtask.configFile().getProfile().then(profile => {
@@ -22,7 +23,8 @@ webtask.configFile().getProfile().then(profile => {
     secret: {
       GITHUB_CLIENT_ID: nconf.get('GITHUB_CLIENT_ID'),
       GITHUB_CLIENT_SECRET: nconf.get('GITHUB_CLIENT_SECRET'),
-      PUSHBULLET_TOKEN: nconf.get('PUSHBULLET_TOKEN')
+      PUSHBULLET_CLIENT_ID: nconf.get('PUSHBULLET_CLIENT_ID'),
+      PUSHBULLET_CLIENT_SECRET: nconf.get('PUSHBULLET_CLIENT_SECRET')
     }
   }, (err, token) => {
     if (err) {

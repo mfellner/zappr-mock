@@ -8,7 +8,7 @@ export default function requireAuth(Component, redirect = '/login') {
 
   function mapStateToProps(state) {
     return {
-      isAuthenticated: state.oauth.isAuthenticated
+      isAuthenticated: state.oauth.github.isAuthenticated
     }
   }
 

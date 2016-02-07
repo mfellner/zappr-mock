@@ -20,7 +20,8 @@ export the following environment variables or create a file `config.json`:
 {
   "GITHUB_CLIENT_ID": "****",
   "GITHUB_CLIENT_SECRET": "****",
-  "PUSHBULLET_TOKEN": "****"
+  "PUSHBULLET_CLIENT_ID": "****",
+  "PUSHBULLET_CLIENT_SECRET": "****"
 }
 ```
 
