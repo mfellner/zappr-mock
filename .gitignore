@@ -132,3 +132,5 @@ node_modules
 config.json
 webtask/pushbullet_token
 webtask/webhook_secret
+webtask/client_id
+webtask/client_secret

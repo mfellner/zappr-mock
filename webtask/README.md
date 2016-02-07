@@ -1,24 +1,32 @@
-# githook webtask
+# zappr webtask
 
-Forward Githook events to browser clients via Pushbullet or GCM.
+* Handle Github OAuth login webapp flow
+* Forward Githook events to browser clients via Pushbullet or GCM.
 
 **Description**
 
-Github webhook --> webtask.io --> Pushbullet/GCM --> Browser
+Github webhook --> webtask.io --> Pushbullet --> Browser
 
 * [Webtask](https://webtask.io/docs/101)
-* [Pushbullet](https://www.pushbullet.com): websocket
+* [Pushbullet](https://www.pushbullet.com)
     * https://docs.pushbullet.com/#pushbullet-api
-* [Google Cloud Messaging](https://developers.google.com/cloud-messaging): service-worker
-    * https://developers.google.com/cloud-messaging/chrome/client
-    * https://developers.google.com/web/fundamentals/getting-started/push-notifications/?hl=en
 
 **Create webtask**
 
+To use [nconf](https://github.com/indexzero/nconf) based configuration,
+export the following environment variables or create a file `config.json`:
+
 ```
-wt create webtask/githook.js \
-  --prod \
-  --name zappr-githook \
-  --secret PUSHBULLET_TOKEN=$(cat webtask/pushbullet_token | tr -d "\n") \
-  --output token-url
+{
+  "GITHUB_CLIENT_ID": "****",
+  "GITHUB_CLIENT_SECRET": "****",
+  "PUSHBULLET_CLIENT_ID": "****",
+  "PUSHBULLET_CLIENT_SECRET": "****"
+}
+```
+
+Create the webtask and url with this command:
+
+```
+npm run -s webtask
 ```
