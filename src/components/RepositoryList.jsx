@@ -13,14 +13,26 @@ export default class RepositoryList extends Component {
   };
 
   render() {
+    const style = {
+      list: {
+        maxHeight: '204px',
+        overflowY: 'scroll'
+      }
+    }
     const {selected, repositories} = this.props
     return (
       <Panel collapsible defaultExpanded header="Repositories">
-        <ListGroup componentClass="ul" fill style={{maxHeight: '204px', overflowY: 'scroll'}}>
-          {repositories.map((repository, i) => (
-            (<RepositoryListItem key={i} repository={repository}
-                                 active={repository.name === selected}/>)
-          ))}
+        <ListGroup componentClass="ul" fill style={style.list}>
+          {(() => (
+            repositories.isRequesting || repositories.length === 0
+              ? (<span className="list-group-item text-center">
+                  <i className="fa fa-2x fa-spinner fa-pulse"/>
+                </span>)
+              : repositories.map((repository, i) => ((
+              <RepositoryListItem key={i} repository={repository}
+                                  active={repository.name === selected}/>
+            )))
+          ))()}
         </ListGroup>
       </Panel>
     )

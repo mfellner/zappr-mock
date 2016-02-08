@@ -28,9 +28,12 @@ export default class NavHeader extends React.Component {
   }
 
   render() {
-    const { login, html_url, avatar_url } = this.props.user
+    const { login, html_url, avatar_url, isRequesting } = this.props.user
 
     const style = {
+      brand: {
+        padding: '0 15px'
+      },
       logo: {
         marginTop: '1px',
         display: 'inline'
@@ -50,7 +53,7 @@ export default class NavHeader extends React.Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/" style={{padding: '0 15px'}}>
+            <Link to="/" style={style.brand}>
               <Image alt="ZAPPR"
                      src={icon}
                      style={style.logo}/>
@@ -76,11 +79,17 @@ export default class NavHeader extends React.Component {
               </MenuItem>
             </NavDropdown>
             <li>
-              <Image alt="avatar"
-                     className="hidden-xs"
-                     style={style.avatar}
-                     src={avatar_url}
-                     circle/>
+              {(() => (
+                isRequesting
+                  ? (<span className="navbar-text">
+                      <i className="fa fa-lg fa-spinner fa-pulse"/>
+                    </span>)
+                  : (<Image alt="avatar"
+                            className="hidden-xs"
+                            style={style.avatar}
+                            src={avatar_url}
+                            circle/>)
+              ))()}
             </li>
           </Nav>
         </Navbar.Collapse>

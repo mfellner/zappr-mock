@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-fetch'
 import { createAction } from 'redux-actions'
 
+import { WEBTASK_URL } from '../config'
+
 export const GITHUB_REQUEST_LOGIN = Symbol('github request login')
 export const GITHUB_FETCH_TOKEN = Symbol('github fetch token')
 export const PUSHBULLET_REQUEST_LOGIN = Symbol('pushbullet request login')

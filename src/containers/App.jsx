@@ -4,28 +4,28 @@ import { connect } from 'react-redux'
 
 import NavHeader from '../components/NavHeader.jsx'
 import PushbulletClient from './PushbulletClient'
-import { getActiveUser } from '../actions/users'
-import { fetchRepositories } from '../actions/repositories'
-import { receiveWebhook } from '../actions/webhook'
 import { githubLogout } from '../actions/oauth'
+import { receiveWebhook } from '../actions/webhook'
+import { fetchActiveUser } from '../actions/github/users'
+import { fetchRepositories } from '../actions/github/repositories'
 import { pushbulletRequestLogin, pushbulletFetchToken } from '../actions/oauth'
 
 function mapStateToProps(state) {
   return {
-    user: state.users.user,
-    repositories: state.repositories,
-    pushbullet: state.oauth.pushbullet,
-    webhook: state.webhook
+    oauth: state.oauth,
+    webhook: state.webhook,
+    github: state.github
   }
 }
 
 class App extends Component {
   static propTypes = {
     route: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    repositories: PropTypes.array.isRequired,
-    pushbullet: PropTypes.object.isRequired,
-    getActiveUser: PropTypes.func.isRequired,
+    oauth: PropTypes.object.isRequired,
+    webhook: PropTypes.object.isRequired,
+    github: PropTypes.object.isRequired,
+    fetchActiveUser: PropTypes.func.isRequired,
+    fetchRepositories: PropTypes.func.isRequired,
     receiveWebhook: PropTypes.func.isRequired
   };
   static contextTypes = {
@@ -39,25 +39,26 @@ class App extends Component {
 
   initPbClient(isAuthenticated) {
     if (isAuthenticated) {
-      this.pbClient.init(this.props.pushbullet.accessToken)
+      this.pbClient.init(this.props.oauth.pushbullet.accessToken)
     }
   }
 
   componentDidMount() {
     console.log('App did mount %o', this.props)
-    const {code, isAuthenticated} = this.props.pushbullet
+    const {code, isAuthenticated} = this.props.oauth.pushbullet
     if (code && !isAuthenticated) {
       console.log('fetching Pushbullet access token...')
       this.props.pushbulletFetchToken(code)
       this.context.router.replace('/settings')
     }
-    this.props.getActiveUser()
+    this.props.fetchActiveUser()
     this.props.fetchRepositories()
     this.initPbClient(isAuthenticated)
   }
 
   render() {
-    const {location, user, githubLogout, ...rest} = this.props
+    const {location, githubLogout, ...rest} = this.props
+    const {user} = this.props.github
     return (
       <div>
         <NavHeader location={location} user={user} logout={githubLogout}/>
@@ -70,7 +71,7 @@ class App extends Component {
 }
 
 export default connect(mapStateToProps, {
-  getActiveUser, fetchRepositories,
+  fetchActiveUser, fetchRepositories,
   receiveWebhook, githubLogout,
   pushbulletRequestLogin, pushbulletFetchToken
 })(App)

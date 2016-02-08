@@ -5,9 +5,9 @@ import RepositoryBrowser from '../components/RepositoryBrowser.jsx'
 
 export default class Home extends Component {
   static propTypes = {
-    params: PropTypes.object,
+    params: PropTypes.object,  // React Router route params
     webhook: PropTypes.object,
-    repositories: PropTypes.array
+    github: PropTypes.object
   };
 
   componentDidMount() {
@@ -19,7 +19,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const {params, webhook, repositories} = this.props
+    const {params, webhook, github} = this.props
     const webhookEvent = webhook ? webhook.githubEvent : null
     return (
       <div>
@@ -32,7 +32,8 @@ export default class Home extends Component {
           </Col>
         </Row>
         <Row>
-          <RepositoryBrowser selected={params.repository} repositories={repositories}/>
+          <RepositoryBrowser selected={params.repository}
+                             repositories={github.repositories}/>
         </Row>
       </div>
     )

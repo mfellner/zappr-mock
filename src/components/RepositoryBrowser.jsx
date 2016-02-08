@@ -6,11 +6,11 @@ import RepositoryDetail from './RepositoryDetail.jsx'
 
 export default class RepositoryBrowser extends Component {
   static propTypes = {
-    selected: PropTypes.string,
+    selected: PropTypes.string.isRequired,
     repositories: PropTypes.array.isRequired
   };
   static defaultProps = {
-    selected: null,
+    selected: '',
     repositories: []
   };
 

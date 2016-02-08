@@ -3,13 +3,12 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import zapprLogo from '../img/zappr.png'
+import { WEBTASK_URL } from '../config'
 import { githubRequestLogin, githubFetchToken } from '../actions/oauth'
 
 function mapStateToProps(state) {
   return {
-    user: state.users.user,
-    auth: state.oauth.github,
-    webhook: state.webhook
+    auth: state.oauth.github
   }
 }
 
@@ -62,7 +61,6 @@ class Login extends Component {
       }
     }
     const {isAuthenticating} = this.props.auth
-    console.log('render Login %o', this.github)
     return (
       <div style={style.container}>
         <div>

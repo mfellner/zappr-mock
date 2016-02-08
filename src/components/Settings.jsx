@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { Row, Col } from 'react-bootstrap'
 
+import { WEBTASK_URL } from '../config'
+
 export default class Settings extends Component {
   static propTypes = {
-    pushbullet: PropTypes.object,
-    pushbulletUrl: PropTypes.string,
-    pushbulletRequestLogin: PropTypes.func
+    oauth: PropTypes.object.isRequired,
+    pushbulletUrl: PropTypes.string.isRequired,
+    pushbulletRequestLogin: PropTypes.func.isRequired
   };
   static defaultProps = {
     pushbulletUrl: `${WEBTASK_URL}&login=pushbullet`
@@ -20,16 +22,22 @@ export default class Settings extends Component {
   }
 
   render() {
-    const {isAuthenticated, isAuthenticating} = this.props.pushbullet
+    const style = {
+      head: {
+        paddingTop: '10px'
+      }
+    }
+    const {pushbullet} = this.props.oauth
+    const disableLogin = pushbullet.isAuthenticated || pushbullet.isAuthenticating
     return (
       <div>
-        <Row style={{paddingTop: '10px'}}>
+        <Row style={style.head}>
           <Col md={2}>
             <a className="btn btn-default center-block"
-               href={this.props.pushbulletUrl} disabled={isAuthenticated || isAuthenticating}
+               href={this.props.pushbulletUrl} disabled={disableLogin}
                onClick={this.props.pushbulletRequestLogin}>
               {(() => (
-                isAuthenticating
+                pushbullet.isAuthenticating
                   ? (<i className="fa fa-spinner fa-pulse"/>)
                   : (<i className="fa fa-cloud"/>)
               ))()}
@@ -37,10 +45,10 @@ export default class Settings extends Component {
             </a>
           </Col>
           <Col md={10}>
-            <p>{`isAuthenticated: ${this.props.pushbullet.isAuthenticated}`}</p>
-            <p>{`isAuthenticating: ${this.props.pushbullet.isAuthenticating}`}</p>
-            <p>{`token: ${this.props.pushbullet.accessToken}`}</p>
-            <p>{`type: ${this.props.pushbullet.type}`}</p>
+            <p>{`isAuthenticated: ${pushbullet.isAuthenticated}`}</p>
+            <p>{`isAuthenticating: ${pushbullet.isAuthenticating}`}</p>
+            <p>{`token: ${pushbullet.accessToken}`}</p>
+            <p>{`type: ${pushbullet.type}`}</p>
           </Col>
         </Row>
       </div>
