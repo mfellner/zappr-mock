@@ -28,7 +28,7 @@ export default class NavHeader extends React.Component {
   }
 
   render() {
-    const { login, html_url, avatar_url, isRequesting } = this.props.user
+    const {login, html_url, avatar_url, isRequesting} = this.props.user
 
     const style = {
       brand: {

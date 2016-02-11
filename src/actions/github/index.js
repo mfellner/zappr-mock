@@ -3,6 +3,6 @@ export function dispatch(inject) {
     dispatch(inject({
       Accept: 'application/vnd.github.v3+json',
       Authorization: `token ${getState().oauth.github.accessToken}`
-    }))
+    }, getState()))
   )
 }

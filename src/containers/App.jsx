@@ -7,7 +7,7 @@ import PushbulletClient from './PushbulletClient'
 import { githubLogout } from '../actions/oauth'
 import { receiveWebhook } from '../actions/webhook'
 import { fetchActiveUser } from '../actions/github/users'
-import { fetchRepositories } from '../actions/github/repositories'
+import { fetchRepositories, fetchHooks, createHook, deleteHook } from '../actions/github/repositories'
 import { pushbulletRequestLogin, pushbulletFetchToken } from '../actions/oauth'
 
 function mapStateToProps(state) {
@@ -26,6 +26,9 @@ class App extends Component {
     github: PropTypes.object.isRequired,
     fetchActiveUser: PropTypes.func.isRequired,
     fetchRepositories: PropTypes.func.isRequired,
+    fetchHooks: PropTypes.func.isRequired,
+    createHook: PropTypes.func.isRequired,
+    deleteHook: PropTypes.func.isRequired,
     receiveWebhook: PropTypes.func.isRequired
   };
   static contextTypes = {
@@ -71,7 +74,7 @@ class App extends Component {
 }
 
 export default connect(mapStateToProps, {
-  fetchActiveUser, fetchRepositories,
+  fetchActiveUser, fetchRepositories, fetchHooks, createHook, deleteHook,
   receiveWebhook, githubLogout,
   pushbulletRequestLogin, pushbulletFetchToken
 })(App)

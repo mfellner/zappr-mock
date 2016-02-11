@@ -2,17 +2,18 @@ const path = require('path')
 const nconf = require('nconf')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 nconf.argv()
 .env()
 .file({file: path.join(__dirname, 'config.json')})
 .defaults({
   GITHUB_HOST: 'api.github.com',
-  GITHUB_SCOPES: ['user:email', 'repo:status', 'write:repo_hook'],
+  GITHUB_SCOPES: ['user:email', 'repo:status', 'admin:repo_hook'],
   PUSHBULLET_HOST: 'stream.pushbullet.com',
   WEBTASK_HOST: 'webtask.it.auth0.com',
   WEBTASK_PROFILE: 'wt-max_fellner-gmail_com-0',
-  WEBTASK_TOKEN: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjIifQ.eyJqdGkiOiJkM2ZiMWJiY2UwMDk0MGIyODM1MjYwZmQ1NjJkMTUyMCIsImlhdCI6MTQ1NDgwNjkzOCwiZHIiOjEsImNhIjpbIjg2YjY5NGRhOTJlMTQ1YzI4YzZmYzhiOGMyM2EzMjIwIl0sImRkIjowLCJ0ZW4iOiJ3dC1tYXhfZmVsbG5lci1nbWFpbF9jb20tMCIsImVjdHgiOiIvMzJ1RUx0UkpvUWdTVkxDalcyWkI5WGM2L3V5N3N6R3VYVjZJcVBZcnVPaEphRldHei9MTk8vdXlXalNUSlQxZVFqWENvdEJibDJkdXZwQVB2RSt3MHFBWG1XQnBLay9JTlJJQlpjOUZSZThldnJwTVY2YysvbkdkNTZRc2FPTEVhSURnMTZiNU9zRTJKOU5SQUVGUWpScEk0dUI1ck9KZVkrWEp5a29JNE9paFpkbktObkFtSUpTR1M2dzBMRzg5M3VjamorTy9xSWF4R2h1R2tOVlNKVFU2ZW8xUGt3ZTRtdG0ycVdYcUpIbFhRUDVKcWRPai8rdUlHcDA5cVoxcDJiR05vUmZJeFZIc2grL0JFa203UFNRaFg4SEZIVWxsSFEva284cHA1ZElCTEwreGZRY3ZMVjFXTlZoaE1xaC44R01jdjJWWW1zeHQzZEwzTzU3TWpBPT0iLCJqdG4iOiJ6YXBwciIsInBiIjoxLCJ1cmwiOiJ3ZWJ0YXNrOi8vbG9jYWxob3N0L2FwaS9kYXRhL2NvZGUvd3QtbWF4X2ZlbGxuZXItZ21haWxfY29tLTAlMkY4YzEwNDhjNGYzYmE3ZGE2NWFlZjNhNjQ5Nzk0NTcxMiJ9.ltSpbTOwzWCQ7J6K6OBX0V5IA2s5DT04tVj_8naIUiQ'
+  WEBTASK_TOKEN: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjIifQ.eyJqdGkiOiI5ODE4ODBjZmVkMzE0MzdhYTQ4MDYzNzYwOTQyMDQxZiIsImlhdCI6MTQ1NTE0ODIxMywiZHIiOjEsImNhIjpbIjg2YjY5NGRhOTJlMTQ1YzI4YzZmYzhiOGMyM2EzMjIwIl0sImRkIjowLCJ0ZW4iOiJ3dC1tYXhfZmVsbG5lci1nbWFpbF9jb20tMCIsImVjdHgiOiI4R1NEdzdKT2NWcEYwZ0N2d0JGaGtQbmlxU24wdVd2Nng2ejBZWHYxeTJHbnhTMjhienRWY2cxVCttYmRwLzc1QncwWTlDT0tULzVaRnU1ZmJGSy82Skx5Tlc3TDk0cEl6cldnZnk0RnkyZXpmS0FUUThkajczR1BlMURvdllPVWVpTGpRMXd1dzFKZ1g1Y0RlKzhiNDhLeG5kcERkdDBrcUpxZFRPM3F5bDAwY3R6UVNQUTQycVJoTFRSK3RobGtjajRpY2pqZzRvSUFZN0J0VFpGOURNcndaeDZOVk5NWGtjbUg3eFNaeFZUZXVaVnZYNkFmQXNEYlEzUHFzalU2UlBCZHQ5cFVvaEN4KzFJWWFreEpCQktKa0dWMHI2ZlVWYlNHTTVPUG1TK2NwRVdzb2J2NGM5TC91bTZHNkFvaS5HQjZGbWRiMmVjVkhpTEZzV2hoUDVBPT0iLCJqdG4iOiJ6YXBwciIsInBiIjoxLCJ1cmwiOiJ3ZWJ0YXNrOi8vbG9jYWxob3N0L2FwaS9kYXRhL2NvZGUvd3QtbWF4X2ZlbGxuZXItZ21haWxfY29tLTAlMkYzZDU2YjQ3NjhmNTFhMjgyY2I3MGViYjBjZTgyYWVjMCJ9.t5JAa9vdigmwtc2OdNla8iKzr7eHX_R8V9xg1Elyqqg'
 })
 
 module.exports = {
@@ -27,10 +28,13 @@ module.exports = {
         presets: ['es2015', 'stage-1', 'react']
       }
     }, {
+      test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?minimize')
+    }, {
       test: /\.png$/, loader: 'url-loader?mimetype=image/png'
     }]
   },
   plugins: [
+    new ExtractTextPlugin('styles.min.css'),
     new HtmlWebpackPlugin({
       template: './src/index.ejs',
       favicon: './src/img/favicon.ico',

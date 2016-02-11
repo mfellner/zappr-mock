@@ -7,7 +7,7 @@ function githook(hook, pushbulletToken, done) {
   var pushbulletUrl = 'https://api.pushbullet.com/v2'
 
   if (!pushbulletToken) {
-    return done(new Error('PUSHBULLET_TOKEN not set'))
+    return done(new Error('pushbullet_token not set'))
   }
 
   /**
@@ -145,15 +145,15 @@ function dispatch(context, req, res) {
   var oauthCode = req.headers['x-zappr-oauth-code'] || null
   var oauthState = req.headers['x-zappr-oauth-state'] || context.query['state'] || null
   var oauthScope = req.headers['x-zappr-oauth-scope'] || context.query['scope'] || null
+  var pushbulletToken = context.query['pushbullet_token'] || null
   var login = context.query['login'] || null
   var redirectUri = 'http://localhost:8080/'
 
   // Handle Github githook event
   if (githubEvent) {
-    var PUSHBULLET_TOKEN = context.secrets.PUSHBULLET_TOKEN || null
     var hook = context.body || {}
     hook.githubEvent = githubEvent
-    githook(hook, PUSHBULLET_TOKEN, done(res))
+    githook(hook, pushbulletToken, done(res))
   }
   // Handle Github OAuth login
   else if (login === 'github' && oauthScope && oauthState) {
